@@ -1,34 +1,34 @@
 ##############################################################
-## [Åõºò½º 17±â Á¤±Ô¼¼¼Ç] 5ÁÖÂ÷ Time-Series °úÁ¦ - 17±â OOO ##
+## [íˆ¬ë¹…ìŠ¤ 17ê¸° ì •ê·œì„¸ì…˜] 5ì£¼ì°¨ Time-Series ê³¼ì œ - 17ê¸° ì´í˜ ##
 ##############################################################
 
 
-# ÆĞÅ°Áö ¼³Ä¡
+# íŒ¨í‚¤ì§€ ì„¤ì¹˜
 #install.packages("forecast")
 library(forecast)
 
 
-# °æ·Î ¼³Á¤
-# data°¡ ÀÖ´Â directory
-path = "D:/git/tobigs_personal/220223_session_5/Time-Series/[Åõºò½º 17±â Á¤±Ô¼¼¼Ç] 5ÁÖÂ÷ Time-Series_16±â ÀÌ¿¹¸²/°úÁ¦"
+# ê²½ë¡œ ì„¤ì •
+# dataê°€ ìˆëŠ” directory
+path = "D:/git/tobigs_personal/220223_session_5/Time-Series/[íˆ¬ë¹…ìŠ¤ 17ê¸° ì •ê·œì„¸ì…˜] 5ì£¼ì°¨ Time-Series_16ê¸° ì´ì˜ˆë¦¼/ê³¼ì œ"
 setwd(path)
 print(getwd())
 
 
-# µ¥ÀÌÅÍ ºÒ·¯¿À±â
+# ë°ì´í„° ë¶ˆëŸ¬ì˜¤ê¸°
 data <- read.csv("kingage.csv")
 class(data)
 head(data)
 nrow(data)
-# data.frame Çü½ÄÀÇ ÃÑ 42°³ÀÇ Á¤¼ö(age)·Î ÀÌ·ç¾îÁø dataÀÔ´Ï´Ù.
+# data.frame í˜•ì‹ì˜ ì´ 42ê°œì˜ ì •ìˆ˜(age)ë¡œ ì´ë£¨ì–´ì§„ dataì…ë‹ˆë‹¤.
 
 Y <- ts(data) # to timeseries
 is.ts(Y)      # True
-plot.ts(Y)    # Á¤»ó¼ºÀ» ¸¸Á·ÇÏÁö ¾Ê¾Æº¸ÀÔ´Ï´Ù.
+plot.ts(Y)    # ì •ìƒì„±ì„ ë§Œì¡±í•˜ì§€ ì•Šì•„ë³´ì…ë‹ˆë‹¤.
 
 
-# µû¶ó¼­ Â÷ºĞÀ» ÅëÇÏ¿© Á¤»ó½Ã°è¿­·Î ¹Ù²ãÁİ´Ï´Ù.
-# Â÷ºĞÀ» 1È¸¸¸ ÁøÇàÇÏ°í °£°İÀ» 1°ú 12 µÎ°¡Áö¸¦ »ç¿ëÇÕ´Ï´Ù.
+# ë”°ë¼ì„œ ì°¨ë¶„ì„ í†µí•˜ì—¬ ì •ìƒì‹œê³„ì—´ë¡œ ë°”ê¿”ì¤ë‹ˆë‹¤.
+# ì°¨ë¶„ì„ 1íšŒë§Œ ì§„í–‰í•˜ê³  ê°„ê²©ì„ 1ê³¼ 12 ë‘ê°€ì§€ë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤.
 diff1_Y <- diff(Y, differences = 1, lag = 1)
 plot.ts(diff1_Y)
 
@@ -39,14 +39,14 @@ plot.ts(diff12_Y)
 
           
 
-# 1. ¸ğÇü ½Äº°
-# acf¿Í pacf¸¦ È®ÀÎÇÏ¿©  ARIMA¸ğÇüÀÇ »ó¼ö¸¦ Á¤ÇÕ´Ï´Ù. 
-par(mfrow=c(2,1))     # ÇÑ¹ø¿¡ È®ÀÎÇÏ±â À§ÇÔ.
+# 1. ëª¨í˜• ì‹ë³„
+# acfì™€ pacfë¥¼ í™•ì¸í•˜ì—¬  ARIMAëª¨í˜•ì˜ ìƒìˆ˜ë¥¼ ì •í•©ë‹ˆë‹¤. 
+par(mfrow=c(2,1))     # í•œë²ˆì— í™•ì¸í•˜ê¸° ìœ„í•¨.
 acf(diff12_Y, main = "ACF")
 pacf(diff12_Y, main = "PACF")
 
 
-# 2. ¸ğ¼ö ÃßÁ¤
+# 2. ëª¨ìˆ˜ ì¶”ì •
 fit1 <- arima(diff12_Y, c(3, 1, 1), seasonal = list(order = c(1, 1, 0), period = 12))
 fit2 <- arima(diff12_Y, c(3, 1, 0), seasonal = list(order = c(1, 1, 0), period = 12))
 fit3 <- arima(diff12_Y, c(2, 1, 0), seasonal = list(order = c(1, 1, 0), period = 12))
@@ -55,7 +55,7 @@ fit2
 fit3
 
 
-# AIC°¡ ÀÛÀ¸¸é ÁÁ´Ù.
+# AICê°€ ì‘ìœ¼ë©´ ì¢‹ë‹¤.
 
 
 # > fit1
@@ -109,11 +109,11 @@ fit3
 
 
 
-# 3. ¸ğÇü ÀûÇÕ¼º Áø´Ü
+# 3. ëª¨í˜• ì í•©ì„± ì§„ë‹¨
 tsdiag(fit1)
 
 
-# 4. ¸ğÇü È®Á¤ ¹× ¿¹Ãø (¿¹Ãø°ª 17°³ Ãâ·ÂÇÏ±â)
+# 4. ëª¨í˜• í™•ì • ë° ì˜ˆì¸¡ (ì˜ˆì¸¡ê°’ 17ê°œ ì¶œë ¥í•˜ê¸°)
 diff12_Y.forecasts <- forecast(fit2, h = 17)
 diff12_Y.forecasts
 plot(diff12_Y.forecasts)
